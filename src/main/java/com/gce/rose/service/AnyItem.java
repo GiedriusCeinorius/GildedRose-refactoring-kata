@@ -2,7 +2,7 @@ package com.gce.rose.service;
 
 import com.gce.rose.model.Item;
 
-public class AnyItem {
+public abstract class AnyItem {
 
     public void updateQualityDecrement(Item item) {
         if (item.quality > 0) {
@@ -20,13 +20,6 @@ public class AnyItem {
         item.sellIn -= 1;
     }
 
-    public void updateWholeItem(Item item) {
-        updateQualityDecrement(item);
-        updateSellInByOneDay(item);
-
-        if (item.sellIn < 0) {
-            updateQualityDecrement(item);
-        }
-    }
+    public abstract void updateWholeItem(Item item);
 
 }

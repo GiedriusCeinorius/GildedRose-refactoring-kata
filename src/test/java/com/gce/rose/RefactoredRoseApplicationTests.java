@@ -1,7 +1,9 @@
 package com.gce.rose;
 
 import com.gce.rose.model.Item;
+import com.gce.rose.service.AnyItem;
 import com.gce.rose.service.GildedRose;
+import com.gce.rose.service.SimpleItem;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,11 +19,21 @@ public class RefactoredRoseApplicationTests {
     private GildedRose app;
 
     @Test
-    public void lowersBothValuesForEveryItem() {
+    public void lowersBothValuesForItem() {
 
-        Item item = givenParamaters("PO", 10, 10);
-        app.updateWholeItem(item);
-        testItem("PO", 9, 9);
+        Item item = givenParamaters("Salad", 50, 50);
+        app.updateQuality();
+        app.anyItem.updateWholeItem(item);
+        testItem("Salad", 49, 49);
+    }
+
+    @Test
+    public void qualityDegradesTwiceAsFast() {
+
+        Item item = givenParamaters("Salad", 0, 50);
+        app.updateQuality();
+        app.anyItem.updateWholeItem(item);
+        testItem("Salad", -1, 48);
     }
 
     private Item givenParamaters(String name, int sellIn, int quality) {

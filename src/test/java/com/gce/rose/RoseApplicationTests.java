@@ -17,7 +17,7 @@ public class RoseApplicationTests {
 
     //    At the end of each day our system lowers both values for every item
     @Test
-    public void lowersBothValuesForEveryItem() {
+    public void lowersBothValuesForItem() {
         givenParamaters("Salad", 50, 50);
         app.updateQuality();
         testItem("Salad", 49, 49);

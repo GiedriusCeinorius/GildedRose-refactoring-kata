@@ -64,11 +64,15 @@ public class GildedRose {
 //    }
 
     public void updateQuality() {
+       autoSelectItem();
+    }
 
+    private void autoSelectItem() {
         for (Item item : items) {
             String name = item.name;
             switch (name) {
                 case "Aged Brie":
+                    anyItem = new AgedBrie();
                     break;
                 case "Backstage passes to a TAFKAL80ETC concert":
                     break;
@@ -78,8 +82,8 @@ public class GildedRose {
                     anyItem = new SimpleItem();
                     break;
             }
+            anyItem.updateWholeItem(item);
         }
-
     }
 
 

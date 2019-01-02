@@ -23,7 +23,6 @@ public class RefactoredRoseApplicationTests {
 
         Item item = givenParamaters("Salad", 50, 50);
         app.updateQuality();
-        app.anyItem.updateWholeItem(item);
         testItem("Salad", 49, 49);
     }
 
@@ -32,9 +31,23 @@ public class RefactoredRoseApplicationTests {
 
         Item item = givenParamaters("Salad", 0, 50);
         app.updateQuality();
-        app.anyItem.updateWholeItem(item);
         testItem("Salad", -1, 48);
     }
+
+    @Test
+    public void agedBrieQuality() {
+        Item iten = givenParamaters("Aged Brie", 50, 1);
+        app.updateQuality();
+        testItem("Aged Brie", 49, 2);
+    }
+
+    @Test
+    public void agedBrieQuality0() {
+        Item iten = givenParamaters("Aged Brie", 0, 1);
+        app.updateQuality();
+        testItem("Aged Brie", -1, 3);
+    }
+
 
     private Item givenParamaters(String name, int sellIn, int quality) {
         Item[] items = new Item[]{new Item(name, sellIn, quality)};

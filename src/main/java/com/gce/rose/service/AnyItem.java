@@ -4,22 +4,29 @@ import com.gce.rose.model.Item;
 
 public class AnyItem {
 
-    public void decrementQuality(Item item) {
+    public void updateQualityDecrement(Item item) {
         if (item.quality > 0) {
             item.quality -= 1;
         }
     }
 
-    public void decrementSellInByOneDay(Item item) {
+    public void updateQualityIncrement(Item item) {
+        if (item.quality < 50) {
+            item.quality += 1;
+        }
+    }
+
+    public void updateSellInByOneDay(Item item) {
         item.sellIn -= 1;
     }
 
     public void updateWholeItem(Item item) {
-        decrementQuality(item);
-        decrementSellInByOneDay(item);
+        updateQualityDecrement(item);
+        updateSellInByOneDay(item);
 
         if (item.sellIn < 0) {
-            decrementQuality(item);
+            updateQualityDecrement(item);
         }
     }
+
 }

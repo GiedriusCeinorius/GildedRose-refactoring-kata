@@ -60,6 +60,22 @@ public class GildedRose {
             }
         }
     }
+
+    public void decrementQualityByOne(Item item) {
+        if (item.quality > 0) {
+            item.quality = item.quality - 1;
+        }
+    }
+
+    public void decrementSellInByOneDay(Item item) {
+        item.sellIn = item.sellIn - 1;
+    }
+
+    public void updateWholeItem(Item item) {
+        decrementQualityByOne(item);
+        decrementSellInByOneDay(item);
+    }
+
 }
 
 // Paprasta preke - mazejant dienoms (sellIn) mazeja ir quality po 1, sellIn pasiekus 0 quality mazeja dvigubai greiciau t.y po 2.

@@ -85,7 +85,7 @@ public class RoseApplicationTests {
         testItem("Backstage passes to a TAFKAL80ETC concert", 4, 25);
 
     }
-    
+
     private void givenParamaters(String name, int sellIn, int quality) {
         Item[] items = new Item[]{new Item(name, sellIn, quality)};
         app = new GildedRose(items);

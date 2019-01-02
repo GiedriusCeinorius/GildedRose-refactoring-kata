@@ -2,8 +2,8 @@ package com.gce.rose.service;
 
 import com.gce.rose.model.Item;
 
-class GildedRose {
-    Item[] items;
+public class GildedRose {
+    public Item[] items;
 
     public GildedRose(Item[] items) {
         this.items = items;

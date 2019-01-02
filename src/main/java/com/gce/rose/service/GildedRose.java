@@ -61,3 +61,14 @@ class GildedRose {
         }
     }
 }
+
+// Paprasta preke - mazejant dienoms (sellIn) mazeja ir quality po 1, sellIn pasiekus 0 quality mazeja dvigubai greiciau t.y po 2.
+// Quality neina i minusa.
+// Aged Brie - dienoms mazejant quality dideja po 1, pasiekus 0 dideja dvigubai greiciau t.y po 2.
+// Quality negali virsyti 50.
+// Sulfuras - negali buti parduotas, t.y sellIn ir quality stovi vietoje visada. Jo quality visalaik 80.
+// Backstage passes - mazejant dienoms (sellIn) quality dideja  po 1, dienoms nukritus iki 10, quality pradeda dideti po 2,
+// o nukritus iki 5, dideja po 3. Kai sellIn pasiekia 0, quality krenta iskart iki 0.
+
+// Conjured - quality mazeja dvigubai greiciau nei paprastu prekiu (tai po 2 turbut)
+// Negalima liesti Item klases

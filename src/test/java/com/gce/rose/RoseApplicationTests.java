@@ -101,6 +101,7 @@ public class RoseApplicationTests {
     }
 
     // "Conjured" items degrade in Quality twice as fast as normal items
+    // Comment this method when testing with legacy code
     @Test
     public void conjuredQualityDegrates() {
         givenParamaters("Conjured", 0, 22);
@@ -114,7 +115,13 @@ public class RoseApplicationTests {
         app = new GildedRose(items);
     }
 
-    private void testItem(String name, int sellIn, int quality) {
+    // Current thread goes to sleep while updateQuality calculates
+    private synchronized void testItem(String name, int sellIn, int quality) {
+        try {
+            Thread.sleep(150);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         assertEquals(name, app.items[0].name);
         assertEquals(sellIn, app.items[0].sellIn);
         assertEquals(quality, app.items[0].quality);

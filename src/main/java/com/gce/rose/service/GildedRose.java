@@ -2,6 +2,10 @@ package com.gce.rose.service;
 
 import com.gce.rose.model.Item;
 
+import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class GildedRose {
 
     public Item[] items;
@@ -64,34 +68,49 @@ public class GildedRose {
 //    }
 
     public void updateQuality() {
-        autoSelectItem();
+
+        processItemsConcurrently();
     }
 
-    private void autoSelectItem() {
+    private void processItemsConcurrently() {
+        Map<Item, AbstractItemManagement> map = autoSelectItem();
+        ExecutorService executor = Executors.newFixedThreadPool(4);
+
+        for (Map.Entry<Item, AbstractItemManagement> entry : map.entrySet()) {
+            executor.execute(() -> entry.getValue().updateWholeItem(entry.getKey()));
+        }
+        executor.shutdown();
+    }
+
+    private Map<Item, AbstractItemManagement> autoSelectItem() {
+        Map<Item, AbstractItemManagement> map = new LinkedHashMap<>();
         for (Item item : items) {
             String name = item.name;
             switch (name) {
                 case "Aged Brie":
                     specificItem = new AgedBrieManagement();
+                    map.put(item, specificItem);
                     break;
                 case "Backstage passes to a TAFKAL80ETC concert":
                     specificItem = new BackstagePassesManagement();
+                    map.put(item, specificItem);
                     break;
                 case "Sulfuras, Hand of Ragnaros":
                     specificItem = new SulfurasManagement();
+                    map.put(item, specificItem);
                     break;
                 case "Conjured":
                     specificItem = new ConjuredManagement();
+                    map.put(item, specificItem);
                     break;
                 default:
                     specificItem = new SimpleItemManagement();
+                    map.put(item, specificItem);
                     break;
             }
-            specificItem.updateWholeItem(item);
         }
+        return map;
     }
-
-
 }
 
 // Paprasta preke - mazejant dienoms (sellIn) mazeja ir quality po 1, sellIn pasiekus 0 quality mazeja dvigubai greiciau t.y po 2.

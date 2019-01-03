@@ -8,6 +8,8 @@ public class RoseApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(RoseApplication.class, args);
+
+
     }
 
 }

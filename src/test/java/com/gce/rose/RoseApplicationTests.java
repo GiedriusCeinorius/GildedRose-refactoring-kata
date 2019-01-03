@@ -55,17 +55,24 @@ public class RoseApplicationTests {
         testItem("Aged Brie", 49, 50);
     }
 
+    //    Once the sell by date has passed, Aged Brie Quality increases twice as fast
+    @Test
+    public void agedBrieQuality0() {
+        givenParamaters("Aged Brie", 0, 1);
+        app.updateQuality();
+        testItem("Aged Brie", -1, 3);
+    }
+
     //    "Sulfuras", being a legendary item, never has to be sold or decreases in Quality
     @Test
     public void sulfurasQuality() {
-        givenParamaters("Sulfuras, Hand of Ragnaros", 50, 50);
+        givenParamaters("Sulfuras, Hand of Ragnaros", 50, 80);
         app.updateQuality();
-        testItem("Sulfuras, Hand of Ragnaros", 50, 50);
+        testItem("Sulfuras, Hand of Ragnaros", 50, 80);
     }
 
 //    "Backstage passes", like aged brie, increases in Quality as its SellIn value approaches;
 //    Quality increases by 2 when there are 10 days or less and by 3 when there are 5 days or less
-
     @Test
     public void backstagePassesQuality() {
 
@@ -79,12 +86,20 @@ public class RoseApplicationTests {
         app.updateQuality();
         testItem("Backstage passes to a TAFKAL80ETC concert", 9, 18);
 
-        //From 5 to the end increases by 3
+        //From 5 to 0 increases by 3
         givenParamaters("Backstage passes to a TAFKAL80ETC concert", 5, 22);
         app.updateQuality();
         testItem("Backstage passes to a TAFKAL80ETC concert", 4, 25);
-
     }
+
+    //At 0 and below Quality drops to 0
+    @Test
+    public void backstagePassesQualityAt0() {
+        givenParamaters("Backstage passes to a TAFKAL80ETC concert", 0, 22);
+        app.updateQuality();
+        testItem("Backstage passes to a TAFKAL80ETC concert", -1, 0);
+    }
+
 
     private void givenParamaters(String name, int sellIn, int quality) {
         Item[] items = new Item[]{new Item(name, sellIn, quality)};

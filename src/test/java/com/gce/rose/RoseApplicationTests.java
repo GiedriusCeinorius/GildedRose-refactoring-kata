@@ -115,7 +115,7 @@ public class RoseApplicationTests {
         app = new GildedRose(items);
     }
 
-    // Current thread goes to sleep while updateQuality calculates
+    // Current thread goes to sleep while updateQuality calculates on a different thread
     private synchronized void testItem(String name, int sellIn, int quality) {
         try {
             Thread.sleep(150);

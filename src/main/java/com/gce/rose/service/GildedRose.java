@@ -80,6 +80,9 @@ public class GildedRose {
                 case "Sulfuras, Hand of Ragnaros":
                     specificItem = new SulfurasManagement();
                     break;
+                case "Conjured":
+                    specificItem = new ConjuredManagement();
+                    break;
                 default:
                     specificItem = new SimpleItemManagement();
                     break;

@@ -100,6 +100,14 @@ public class RoseApplicationTests {
         testItem("Backstage passes to a TAFKAL80ETC concert", -1, 0);
     }
 
+    // "Conjured" items degrade in Quality twice as fast as normal items
+    @Test
+    public void conjuredQualityDegrates() {
+        givenParamaters("Conjured", 0, 22);
+        app.updateQuality();
+        testItem("Conjured", -1, 18);
+    }
+
 
     private void givenParamaters(String name, int sellIn, int quality) {
         Item[] items = new Item[]{new Item(name, sellIn, quality)};

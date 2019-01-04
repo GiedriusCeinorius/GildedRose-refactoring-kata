@@ -18,9 +18,9 @@ public class RoseSheduler {
     @Autowired
     private ItemRepository repo;
     List<Item> list = null;
+//0 * * ? * *
 
-
-    @Scheduled(cron = "0 * * ? * *")
+    @Scheduled(cron = "0 0/1 * 1/1 * ? *")
     public void ItemsUpdatesOnceADay() {
         list = new ArrayList<>();
         Iterable<Item> iterable = repo.findAll();
@@ -29,7 +29,7 @@ public class RoseSheduler {
         rose = new GildedRose(list.toArray(new Item[list.size()]));
 
         rose.updateQuality();
-
+        repo.deleteAll();
         repo.saveAll(Arrays.asList(rose.items));
     }
 }

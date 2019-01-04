@@ -15,72 +15,41 @@ import java.util.List;
 public class RoseSheduler {
 
     private GildedRose rose;
+
     @Autowired
     private ItemRepository repo;
 
-    //0 * * ? * *
-//    @Scheduled(cron = "0 * * ? * *")
+    private List<Item> simulatedList = new ArrayList<>();
+    // Every minute
+    // 0 * * ? * *
+    // Every day at midnight
+    // 0 0 0 * * ?
+    @Scheduled(cron = "0 0 0 * * ?")
     public void ItemsUpdatesOnceADay() {
+
         List<Item> list = new ArrayList<>();
         Iterable<Item> iterable = repo.findAll();
         iterable.forEach(list::add);
 
         rose = new GildedRose(list.toArray(new Item[list.size()]));
 
-        System.out.println("Original items from database");
-        for (Item m : list) {
-            System.out.print(m.name + ", ");
-            System.out.print(m.sellIn + ", ");
-            System.out.println(m.quality + ", ");
-        }
-
-
-        Item[] i = rose.items;
-        System.out.println("Original Items in object");
-        for (Item item : i) {
-            System.out.print(item.name + ", ");
-            System.out.print(item.sellIn + ", ");
-            System.out.println(item.quality);
-        }
         repo.deleteAll();
         rose.updateQuality();
-//        repo.deleteAll();
-
         repo.saveAll(Arrays.asList(rose.items));
-
-        System.out.println("Updated Items in obejct");
-        for (Item item : i) {
-            System.out.print(item.name + ", ");
-            System.out.print(item.sellIn + ", ");
-            System.out.println(item.quality);
-        }
-
-        List<Item> list1 = new ArrayList<>();
-        Iterable<Item> iterable1 = repo.findAll();
-        iterable.forEach(list1::add);
-
-        System.out.println("Updated Items from database");
-        for (Item a : list1) {
-            System.out.print(a.name + ", ");
-            System.out.print(a.sellIn + ", ");
-            System.out.println(a.quality + ", ");
-        }
 
     }
 
     public List<Item> simulateChangesDayByDay() {
-        List<Item> list = new ArrayList<>();
-        Iterable<Item> iterable = repo.findAll();
-        iterable.forEach(list::add);
 
-        rose = new GildedRose(list.toArray(new Item[list.size()]));
-        rose.updateQuality();
-        System.out.println("Updated Items in obejct");
-        for (Item item : rose.items) {
-            System.out.print(item.name + ", ");
-            System.out.print(item.sellIn + ", ");
-            System.out.println(item.quality);
+        if (simulatedList.size() == 0) {
+            Iterable<Item> iterable = repo.findAll();
+            iterable.forEach(simulatedList::add);
         }
-        return Arrays.asList(rose.items);
+
+        rose = new GildedRose(simulatedList.toArray(new Item[simulatedList.size()]));
+        rose.updateQuality();
+        simulatedList = Arrays.asList(rose.items);
+
+        return simulatedList;
     }
 }

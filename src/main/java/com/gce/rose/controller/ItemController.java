@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-public class SearchController {
+public class ItemController {
 
     @Autowired
     private ItemRepository repo;

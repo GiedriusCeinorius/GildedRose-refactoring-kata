@@ -4,6 +4,7 @@ import com.gce.rose.model.Item;
 
 public class SimpleItemManagement extends AbstractItemManagement {
 
+    @Override
     public void updateWholeItem(Item item) {
         updateQualityDecrement(item);
         updateSellInByOneDay(item);

@@ -13,12 +13,71 @@ import java.util.concurrent.TimeUnit;
 public class GildedRose {
 
     public Item[] items;
-    public AbstractItemManagement specificItem;
+    private AbstractItemManagement specificItem;
     private ExecutorService executor = null;
 
     public GildedRose(Item[] items) {
         this.items = items;
     }
+
+    public void updateQuality() {
+
+        processItemsConcurrently();
+    }
+
+    private void processItemsConcurrently() {
+        Map<Item, AbstractItemManagement> map = autoSelectItem();
+        try {
+            executor = Executors.newFixedThreadPool(4);
+
+            for (Map.Entry<Item, AbstractItemManagement> entry : map.entrySet()) {
+                executor.execute(() -> entry.getValue().updateWholeItem(entry.getKey()));
+            }
+        } finally {
+            if (executor != null) {
+                executor.shutdown();
+            }
+        }
+        if (executor != null) {
+            try {
+                executor.awaitTermination(3, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+                System.out.println(e.getMessage() + " threads did not make it in 'processItemsConcurrently' method ");
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private Map<Item, AbstractItemManagement> autoSelectItem() {
+        Map<Item, AbstractItemManagement> map = new LinkedHashMap<>();
+        for (Item item : items) {
+            String name = item.name;
+            switch (name) {
+                case "Aged Brie":
+                    specificItem = new AgedBrieManagement();
+                    map.put(item, specificItem);
+                    break;
+                case "Backstage passes to a TAFKAL80ETC concert":
+                    specificItem = new BackstagePassesManagement();
+                    map.put(item, specificItem);
+                    break;
+                case "Sulfuras, Hand of Ragnaros":
+                    specificItem = new SulfurasManagement();
+                    map.put(item, specificItem);
+                    break;
+                case "Conjured":
+                    specificItem = new ConjuredManagement();
+                    map.put(item, specificItem);
+                    break;
+                default:
+                    specificItem = new SimpleItemManagement();
+                    map.put(item, specificItem);
+                    break;
+            }
+        }
+        return map;
+    }
+}
 
 //    public void updateQuality() {
 //        for (int i = 0; i < items.length; i++) {
@@ -72,65 +131,6 @@ public class GildedRose {
 //        }
 //    }
 
-    public void updateQuality() {
-
-        processItemsConcurrently();
-    }
-
-    private void processItemsConcurrently() {
-        Map<Item, AbstractItemManagement> map = autoSelectItem();
-        try {
-            executor = Executors.newFixedThreadPool(4);
-
-            for (Map.Entry<Item, AbstractItemManagement> entry : map.entrySet()) {
-                executor.execute(() -> entry.getValue().updateWholeItem(entry.getKey()));
-            }
-        } finally {
-            if (executor != null) {
-                executor.shutdown();
-            }
-        }
-        if (executor != null) {
-            try {
-                executor.awaitTermination(3, TimeUnit.SECONDS);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-
-    }
-
-    private Map<Item, AbstractItemManagement> autoSelectItem() {
-        Map<Item, AbstractItemManagement> map = new LinkedHashMap<>();
-        for (Item item : items) {
-            String name = item.name;
-            switch (name) {
-                case "Aged Brie":
-                    specificItem = new AgedBrieManagement();
-                    map.put(item, specificItem);
-                    break;
-                case "Backstage passes to a TAFKAL80ETC concert":
-                    specificItem = new BackstagePassesManagement();
-                    map.put(item, specificItem);
-                    break;
-                case "Sulfuras, Hand of Ragnaros":
-                    specificItem = new SulfurasManagement();
-                    map.put(item, specificItem);
-                    break;
-                case "Conjured":
-                    specificItem = new ConjuredManagement();
-                    map.put(item, specificItem);
-                    break;
-                default:
-                    specificItem = new SimpleItemManagement();
-                    map.put(item, specificItem);
-                    break;
-            }
-        }
-        return map;
-    }
-}
 
 // Paprasta preke - mazejant dienoms (sellIn) mazeja ir quality po 1, sellIn pasiekus 0 quality mazeja dvigubai greiciau t.y po 2.
 // Quality neina i minusa.

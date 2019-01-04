@@ -71,7 +71,7 @@ public class RoseApplicationTests {
         testItem("Sulfuras, Hand of Ragnaros", 50, 80);
     }
 
-//    "Backstage passes", like aged brie, increases in Quality as its SellIn value approaches;
+    //    "Backstage passes", like aged brie, increases in Quality as its SellIn value approaches;
 //    Quality increases by 2 when there are 10 days or less and by 3 when there are 5 days or less
     @Test
     public void backstagePassesQuality() {
@@ -115,13 +115,7 @@ public class RoseApplicationTests {
         app = new GildedRose(items);
     }
 
-    // Current thread goes to sleep waiting while updateQuality calculates on a different thread to compare
-    private synchronized void testItem(String name, int sellIn, int quality) {
-        try {
-            Thread.sleep(250);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    private void testItem(String name, int sellIn, int quality) {
         assertEquals(name, app.items[0].name);
         assertEquals(sellIn, app.items[0].sellIn);
         assertEquals(quality, app.items[0].quality);

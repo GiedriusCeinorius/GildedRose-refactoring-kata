@@ -7,11 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 public class GildedRose {
 
     public Item[] items;
     public AbstractItemManagement specificItem;
+    private ExecutorService executor = null;
 
     public GildedRose(Item[] items) {
         this.items = items;
@@ -76,13 +79,26 @@ public class GildedRose {
 
     private void processItemsConcurrently() {
         Map<Item, AbstractItemManagement> map = autoSelectItem();
-        ExecutorService executor = Executors.newFixedThreadPool(4);
+        try {
+            executor = Executors.newFixedThreadPool(4);
 
-        for (Map.Entry<Item, AbstractItemManagement> entry : map.entrySet()) {
-
-            executor.execute(() -> entry.getValue().updateWholeItem(entry.getKey()));
+            for (Map.Entry<Item, AbstractItemManagement> entry : map.entrySet()) {
+                executor.execute(() -> entry.getValue().updateWholeItem(entry.getKey()));
+            }
+        } finally {
+            if (executor != null) {
+                executor.shutdown();
+            }
         }
-        executor.shutdown();
+        if (executor != null) {
+            try {
+                executor.awaitTermination(3, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+
     }
 
     private Map<Item, AbstractItemManagement> autoSelectItem() {

@@ -1,12 +1,12 @@
 # GildedRose-refactoring-kata
 
-##Build and Run project:
+## Build and Run project:
 
 1. To build the project, in "GildedRose refactoring kata" directory: "mvn clean install"
 2. To run the project, in "target" directory: "java -jar demo-0.0.1-SNAPSHOT.jar"
 3. Open "Postman" (or WebBrowser)
 
-##How to use:
+## How to use:
 
 1. To fetch all list of Items:
 HTTP method GET
@@ -18,7 +18,7 @@ HTTP method GET
 
 **http://localhost:8080/simulateItemChangesDayByDay**
 
-##What's done:
+## What's done:
 
 1. Accomplished GildedRose refactoring kata in Java.
 2. Upgraded item update algorithm to process items asynchronously.

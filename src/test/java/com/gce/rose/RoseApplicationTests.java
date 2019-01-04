@@ -115,10 +115,10 @@ public class RoseApplicationTests {
         app = new GildedRose(items);
     }
 
-    // Current thread goes to sleep while updateQuality calculates on a different thread
+    // Current thread goes to sleep waiting while updateQuality calculates on a different thread to compare
     private synchronized void testItem(String name, int sellIn, int quality) {
         try {
-            Thread.sleep(150);
+            Thread.sleep(250);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

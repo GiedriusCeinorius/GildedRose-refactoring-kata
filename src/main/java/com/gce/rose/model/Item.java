@@ -1,7 +1,14 @@
 package com.gce.rose.model;
 
-public class Item {
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
+
+@Document
+public class Item implements Serializable {
+
+    @Id
     public String name;
 
     public int sellIn;

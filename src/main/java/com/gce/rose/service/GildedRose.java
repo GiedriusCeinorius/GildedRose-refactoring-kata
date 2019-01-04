@@ -1,6 +1,8 @@
 package com.gce.rose.service;
 
 import com.gce.rose.model.Item;
+import com.gce.rose.repository.ItemRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 import java.util.concurrent.ExecutorService;
@@ -77,6 +79,7 @@ public class GildedRose {
         ExecutorService executor = Executors.newFixedThreadPool(4);
 
         for (Map.Entry<Item, AbstractItemManagement> entry : map.entrySet()) {
+
             executor.execute(() -> entry.getValue().updateWholeItem(entry.getKey()));
         }
         executor.shutdown();

@@ -18,16 +18,6 @@ public class MongoConfig {
     @Bean
     public MongoTemplate mongoTemplate() throws IOException {
 
-//        String tempFile = System.getenv("temp") + File.separator + "extract-" + System.getenv("USERNAME") + "-extractmongod";
-//        String executable;
-//        if (System.getenv("OS") != null && System.getenv("OS").contains("Windows")) {
-//            executable = tempFile + ".exe";
-//        } else {
-//            executable = tempFile + ".sh";
-//        }
-//        Files.deleteIfExists(new File(executable).toPath());
-//        Files.deleteIfExists(new File(tempFile + ".pid").toPath());
-
         EmbeddedMongoFactoryBean mongo = new EmbeddedMongoFactoryBean();
         mongo.setBindIp(MONGO_DB_URL);
         MongoClient mongoClient = mongo.getObject();

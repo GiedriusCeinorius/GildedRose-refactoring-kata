@@ -15,6 +15,7 @@ HTTP method GET
 
 2.  For testing, to simulate how Items will change once updated every day (every day at midnight):
 HTTP method GET
+keep refreshing
 
 **http://localhost:8080/simulateItemChangesDayByDay**
 

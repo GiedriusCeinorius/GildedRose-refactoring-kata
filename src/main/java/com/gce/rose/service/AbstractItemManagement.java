@@ -20,9 +20,11 @@ public abstract class AbstractItemManagement {
         item.sellIn -= 1;
     }
 
-    public void updateQualityDecrementTwiceAsFast(Item item) {
-        if (item.quality > 0) {
-            item.quality -= 2;
+    public void updateQualityDecrementTwiceAsFast(Item item, int timesMoreThanSimpleItem) {
+
+        if (timesMoreThanSimpleItem > 0) {
+            updateQualityDecrement(item);
+            updateQualityDecrementTwiceAsFast(item, timesMoreThanSimpleItem - 1);
         }
     }
 
